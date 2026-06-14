@@ -52,7 +52,7 @@ while (start_time.compareTo(end_time) <= 0.0):
     #distance = iss_pos.distance(hub_pos)
     distance = np.sqrt(((iss_pos.getX() - hub_pos.getX()) ** 2) + 
                        ((iss_pos.getY() - hub_pos.getY()) ** 2) +
-                      ((iss_pos.getZ() - hub_pos.getZ()) ** 2))
+                       ((iss_pos.getZ() - hub_pos.getZ()) ** 2))
     dist.append(distance)
 
     elapsed_time = start_time.durationFrom(start_date) / 3600 
@@ -65,7 +65,46 @@ min_dist = min(dist)
 min_index = dist.index(min_dist)
 closest_time = time[min_index]
 
-print(f"Closest Approach: {min_dist/1000 : .2f} km at hour {closest_time : .2f}")
+coarse_seconds = min_index * 60.0
+coarse_date = start_date.shiftedBy(coarse_seconds)
+
+print(f"Closest Approach: {min_dist/1000 : .2f} km at hour {closest_time : .2f}"
+      "\n" f"On {coarse_date}")
+
+# Fine search
+
+fine_search = 10 * 60.0 
+fine_start = coarse_date.shiftedBy(-fine_search)
+fine_end = coarse_date.shiftedBy(fine_search)
+
+print(f"\nFine search window: {fine_start} to {fine_end}")
+
+fine_dist = []
+fine_time = []
+finesearchtime = fine_start
+
+while finesearchtime.compareTo(fine_end)<= 0.0:
+    iss_state = ISS_propagator.propagate(finesearchtime)
+    hub_state = hub_propagator.propagate(finesearchtime)
+
+    iss_pos = iss_state.getPVCoordinates().getPosition()
+    hub_pos = hub_state.getPVCoordinates().getPosition()
+
+    fine_distance = iss_pos.distance(hub_pos)
+    fine_dist.append(fine_distance)
+    fine_time.append(finesearchtime.durationFrom(start_date) / 3600.0 )
+
+    finesearchtime = finesearchtime.shiftedBy(0.1)
+
+#finding refined minimum
+refined_min_dist = min(fine_dist)
+refined_min_index = fine_dist.index(refined_min_dist) 
+refined_coarse_date = fine_start.shiftedBy(refined_min_index * 0.1)
+
+print(f"\nRefined TCA: {refined_coarse_date}")
+print(f"Refined minimum distance: {refined_min_dist/1000:.3f} km")
+print(f"Improvement: {(min_dist - refined_min_dist)/1000:.3f} km more accurate")
+
 
 # Convert lists to numpy arrays for easier slicing andd plotting
 iss_pos_array = np.array(iss_positions) / 1000.0
