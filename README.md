@@ -32,6 +32,8 @@ python conjunction.py
 - **Console:** Closest approach distance and time
 - **2D Plot:** Distance between satellites over 48 hours
 - **3D Plot:** Both orbits around Earth, showing closest approach point
+  <img width="1500" height="600" alt="Conjunction_analysis" src="https://github.com/user-attachments/assets/46dcb995-0274-4426-8aec-48321402c2e0" />
+
 
 ## Important Notes
 - Uses SGP4 propagation (standard for TLE-based analysis)
