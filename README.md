@@ -1,10 +1,10 @@
 # ISS-Hubble Conjunction Analysis
 
-## What This Does
+## What This Script Does
 Tracks two satellites (ISS and Hubble) and finds when they get closest to each other.
 
 ## How It Works
-1. **Loads TLE data** — current orbital information for both satellites
+1. **Loads TLE data** — current orbital information for both satellites taken from Celestrak (https://celestrak.org/)
 2. **Propagates orbits** — calculates positions every 60 seconds for 48 hours using SGP4 math
 3. **Calculates distance** — measures how far apart the satellites are at each moment
 4. **Finds closest approach** — identifies the time and distance of closest encounter
