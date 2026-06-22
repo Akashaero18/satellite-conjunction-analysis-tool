@@ -16,18 +16,6 @@ Tracks two satellites (ISS and Hubble) and finds when they get closest to each o
 - NumPy, Matplotlib
 - orekit-data.zip (reference data file)
 
-## Installation
-```bash
-conda create -n orekit-env python=3.10
-conda activate orekit-env
-conda install -c conda-forge orekit numpy matplotlib
-```
-
-## Running
-```bash
-python conjunction.py
-```
-
 ## Output
 - **Console:** Closest approach distance and time
 - **2D Plot:** Distance between satellites over 48 hours
@@ -36,9 +24,9 @@ python conjunction.py
 
 
 ## Important Notes
-- Uses SGP4 propagation (standard for TLE-based analysis)
+- Uses SGP4 (Simplified General Pertutbations 4) model
 - Step size: 60 seconds
-- Accuracy: ±1-2 km (typical for TLE data)
+- Accuracy: ±1-2 km
 - For higher precision, numerical propagation with force models would be needed
 
 ## Author
